@@ -1,10 +1,6 @@
-Certainly! Below is a **README.md** file for your project, **Deployment of Apache Guacamole with VNC Server on Oracle Virtual Instance**, which you can use to showcase your project on GitHub. This README provides an overview of the project, installation instructions, usage details, and links to the documentation and demonstration video.
+# Deployment of Virtual Desktop using Apache Guacamole with VNC Server on Oracle Virtual Instance 
 
----
-
-# Deployment of Apache Guacamole with VNC Server on Oracle Virtual Instance  
-
-This project demonstrates the deployment of **Apache Guacamole** with a **VNC Server** on an **Oracle Virtual Instance**. The solution provides a secure, scalable, and user-friendly remote desktop access system using open-source tools like **MariaDB** and **Tomcat9**.  
+This project demonstrates the deployment of **Apache Guacamole** with a **VNC Server** on an **Oracle Virtual Instance** for **Virtual Desktop and Remote Work**. The solution provides a secure, scalable, and user-friendly remote desktop access system using open-source tools like **MariaDB** and **Tomcat9**.  
 
 ---
 
@@ -174,19 +170,3 @@ For detailed documentation, refer to the [Project Documentation](#) (link to you
 
 Watch the step-by-step demonstration of the deployment process:  
 [YouTube Demo Video](#) (link to your video).  
-
----
-
-## Contributing  
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.  
-
----
-
-## License  
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
-
----
-
-Feel free to customize this README.md file further to suit your project's specific needs! Let me know if you need additional assistance.
