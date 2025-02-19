@@ -1,4 +1,4 @@
-# Deployment of Apache Guacamole with VNC Server on Oracle Virtual Instance  
+# Deployment of Virtual Desktop using Apache Guacamole with VNC Server on Oracle Virtual Instance  
 
 This project demonstrates the deployment of **Apache Guacamole** with a **VNC Server** on an **Oracle Virtual Instance**. The solution provides a secure, scalable, and user-friendly remote desktop access system using open-source tools like **MariaDB** and **Tomcat9**.  
 
