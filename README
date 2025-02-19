@@ -1,185 +1,192 @@
+Certainly! Below is a **README.md** file for your project, **Deployment of Apache Guacamole with VNC Server on Oracle Virtual Instance**, which you can use to showcase your project on GitHub. This README provides an overview of the project, installation instructions, usage details, and links to the documentation and demonstration video.
 
-------------------------------------------------------------
- About this README
-------------------------------------------------------------
+---
 
-This README is intended to provide quick and to-the-point documentation for
-technical users intending to compile parts of Apache Guacamole themselves.
+# Deployment of Apache Guacamole with VNC Server on Oracle Virtual Instance  
 
-Source archives are available from the downloads section of the project website:
- 
-    http://guacamole.apache.org/
+This project demonstrates the deployment of **Apache Guacamole** with a **VNC Server** on an **Oracle Virtual Instance**. The solution provides a secure, scalable, and user-friendly remote desktop access system using open-source tools like **MariaDB** and **Tomcat9**.  
 
-A full manual is available as well:
+---
 
-    http://guacamole.apache.org/doc/gug/
+## Table of Contents  
 
+1. [Project Overview](#project-overview)  
+2. [Features](#features)  
+3. [Prerequisites](#prerequisites)  
+4. [Installation](#installation)  
+5. [Configuration](#configuration)  
+6. [Usage](#usage)  
+7. [Documentation](#documentation)  
+8. [Demo Video](#demo-video)  
+9. [Contributing](#contributing)  
+10. [License](#license)  
 
-------------------------------------------------------------
- What is guacamole-server?
-------------------------------------------------------------
+---
 
-The guacamole-server package is a set of software which forms the basis of the
-Guacamole stack. It consists of guacd, libguac, and several protocol support
-libraries.
+## Project Overview  
 
-guacd is the Guacamole proxy daemon used by the Guacamole web application and
-framework. As JavaScript cannot handle binary protocols (like VNC and remote
-desktop) efficiently, a new text-based protocol was developed which would
-contain a common superset of the operations needed for efficient remote desktop
-access, but would be easy for JavaScript programs to process. guacd is the
-proxy which translates between arbitrary protocols and the Guacamole protocol.
+Apache Guacamole is a clientless remote desktop gateway that allows users to access remote systems via a web browser. This project deploys Guacamole on an Oracle Virtual Instance, integrating it with a VNC Server for remote desktop sessions. The deployment uses:  
 
+- **MariaDB**: For user authentication and connection management.  
+- **Tomcat9**: As the servlet container for the Guacamole web application.  
+- **VNC Server**: To provide remote desktop sessions.  
 
-------------------------------------------------------------
- Required dependencies
-------------------------------------------------------------
+---
 
-All software within guacamole-server is built using the popular GNU Automake,
-and thus provides the standard configure script. Before compiling, at least
-the following required dependencies must already be installed:
+## Features  
 
-    1) Cairo (http://cairographics.org/)
+- **Web-Based Remote Access**: Access remote desktops via a browser without installing additional software.  
+- **Secure Authentication**: User authentication and connection details are stored securely in MariaDB.  
+- **Scalable**: Designed to handle multiple concurrent users.  
+- **Cost-Effective**: Leverages open-source tools and cloud infrastructure.  
+- **User-Friendly**: Simple web interface for both administrators and end-users.  
 
-    2) libjpeg-turbo (http://libjpeg-turbo.virtualgl.org/)
-       OR libjpeg (http://www.ijg.org/)
+---
 
-    3) libpng (http://www.libpng.org/pub/png/libpng.html)
+## Prerequisites  
 
-    4) OSSP UUID (http://www.ossp.org/pkg/lib/uuid/)
+Before starting the installation, ensure you have:  
 
+- An **Oracle Virtual Instance** running Ubuntu 20.04 or later.  
+- **Sudo or root privileges** on the instance.  
+- Access to ports **8080** (Tomcat9), **3306** (MariaDB), and **5901** (VNC Server).  
+- A desktop environment installed (e.g., Xfce) if using VNC Server.  
 
-------------------------------------------------------------
- Optional dependencies
-------------------------------------------------------------
+---
 
-In addition, the following optional dependencies may be installed in order to
-enable optional features of Guacamole. Note that while the various supported
-protocols are technically optional, you will no doubt wish to install the 
-dependencies of at least ONE supported protocol, as Guacamole would be useless
-otherwise.
+## Installation  
 
-    RDP:
-        * FreeRDP (http://www.freerdp.com/)
+### 1. Install Java  
+Apache Guacamole requires Java to run Tomcat9. Install OpenJDK 11:  
+```bash
+sudo apt update
+sudo apt install -y openjdk-11-jdk
+```
 
-    SSH:
-        * libssh2 (http://www.libssh2.org/)
-        * OpenSSL (https://www.openssl.org/)
-        * Pango (http://www.pango.org/)
+### 2. Install Tomcat9  
+Install Tomcat9 and its admin tools:  
+```bash
+sudo apt install -y tomcat9 tomcat9-admin
+```
 
-    Telnet:
-        * libtelnet (https://github.com/seanmiddleditch/libtelnet)
-        * Pango (http://www.pango.org/)
+### 3. Install MariaDB  
+Install MariaDB and secure the installation:  
+```bash
+sudo apt install -y mariadb-server
+sudo mysql_secure_installation
+```
 
-    VNC:
-        * libVNCserver (http://libvnc.github.io/)
+### 4. Install Apache Guacamole  
+1. Install dependencies and build Guacamole Server:  
+   ```bash
+   sudo apt install -y build-essential libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavutil-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libpulse-dev libssl-dev libvorbis-dev libwebp-dev
+   wget https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.5.3/source/guacamole-server-1.5.3.tar.gz
+   tar -xzf guacamole-server-1.5.3.tar.gz
+   cd guacamole-server-1.5.3
+   ./configure --with-init-dir=/etc/init.d
+   make
+   sudo make install
+   sudo ldconfig
+   sudo systemctl daemon-reload
+   sudo systemctl start guacd
+   sudo systemctl enable guacd
+   ```
 
-    Support for audio within VNC:
-        * PulseAudio (http://www.freedesktop.org/wiki/Software/PulseAudio/)
+2. Deploy the Guacamole web application:  
+   ```bash
+   wget https://apache.org/dyn/closer.cgi?action=download&filename=guacamole/1.5.3/binary/guacamole-1.5.3.war -O guacamole.war
+   sudo mv guacamole.war /var/lib/tomcat9/webapps/
+   sudo systemctl restart tomcat9
+   ```
 
-    Support for SFTP file transfer for VNC or RDP:
-        * libssh2 (http://www.libssh2.org/)
-        * OpenSSL (https://www.openssl.org/)
+### 5. Install and Configure VNC Server  
+1. Install TigerVNC and a desktop environment:  
+   ```bash
+   sudo apt install -y tigervnc-standalone-server xfce4 xfce4-goodies
+   ```
 
-    Support for WebP image compression:
-        * libwebp (https://developers.google.com/speed/webp/)
+2. Set up the VNC Server:  
+   ```bash
+   vncserver
+   vncserver -kill :1
+   echo '#!/bin/sh
+   unset SESSION_MANAGER
+   unset DBUS_SESSION_BUS_ADDRESS
+   startxfce4 &' > ~/.vnc/xstartup
+   chmod +x ~/.vnc/xstartup
+   vncserver :1
+   ```
 
-    "guacenc" video encoding utility:
-        * FFmpeg (https://ffmpeg.org/)
+---
 
+## Configuration  
 
-------------------------------------------------------------
- Compiling and installing guacd, libguac, etc.
-------------------------------------------------------------
+### 1. Configure MariaDB for Guacamole  
+1. Log into MariaDB and create a database and user:  
+   ```sql
+   CREATE DATABASE guacamole_db;
+   CREATE USER 'guacamole_user'@'localhost' IDENTIFIED BY 'your_password';
+   GRANT SELECT, INSERT, UPDATE, DELETE ON guacamole_db.* TO 'guacamole_user'@'localhost';
+   FLUSH PRIVILEGES;
+   EXIT;
+   ```
 
-All software within guacamole-server is built using the popular GNU Automake,
-and thus provides the standard configure script.
+2. Import the Guacamole schema:  
+   ```bash
+   cat /path/to/guacamole-auth-jdbc-1.5.3/mysql/schema/*.sql | mysql -u guacamole_user -p guacamole_db
+   ```
 
-1) Run configure
+3. Configure Guacamole to use MariaDB by editing `/etc/guacamole/guacamole.properties`:  
+   ```properties
+   auth-provider: net.sourceforge.guacamole.net.auth.jdbc.JDBCAuthenticationProvider
+   mysql-hostname: localhost
+   mysql-port: 3306
+   mysql-database: guacamole_db
+   mysql-username: guacamole_user
+   mysql-password: your_password
+   ```
 
-    $ ./configure
+---
 
-    Assuming all dependencies have been installed, this should succeed without
-    errors. If you wish to install the init script as well, you need to specify
-    the location where your system init scripts are located (typically
-    /etc/init.d):
+## Usage  
 
-    $ ./configure --with-init-dir=/etc/init.d
+1. Access the Guacamole web interface at:  
+   ```
+   http://<your-instance-ip>:8080/guacamole/
+   ```
 
-    Running configure in this manner will cause the "make install" step to
-    install an init script to the specified directory, which you can then
-    activate using the service management mechanism provided by your
-    distribution).
+2. Log in using the credentials configured in MariaDB.  
+3. Set up a new VNC connection in Guacamole:  
+   - Protocol: VNC  
+   - Hostname: `localhost`  
+   - Port: `5901`  
+   - Password: [VNC Server password]  
 
-2) Run make
+---
 
-    $ make
+## Documentation  
 
-    guacd, libguac, and any available protocol support libraries will now
-    compile.
+For detailed documentation, refer to the [Project Documentation](#) (link to your documentation).  
 
-3) Install (as root)
+---
 
-    # make install
+## Demo Video  
 
-    All software that was just built, including documentation, will be
-    installed.
+Watch the step-by-step demonstration of the deployment process:  
+[YouTube Demo Video](#) (link to your video).  
 
-    guacd will install to your /usr/local/sbin directory by default. You can
-    change the install location by using the --prefix option for configure.
+---
 
+## Contributing  
 
-------------------------------------------------------------
- Running guacd 
-------------------------------------------------------------
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.  
 
-If you installed the init script during compile and install, you should be
-able to start guacd through the service management utilities provided by
-your distribution (if any) or by running the init script directly (as root):
+---
 
-    # /etc/init.d/guacd start
+## License  
 
-Root access is needed to write the pidfile /var/run/guacd.pid. You can also run
-guacd itself directly without the init script (as any user):
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.  
 
-    $ guacd
+---
 
-guacd currently takes several command-line options:
-
-    -b HOST 
-
-        Changes the host or address that guacd listens on.
-
-    -l PORT
-
-        Changes the port that guacd listens on (the default is port 4822).
-
-    -p PIDFILE
-
-        Causes guacd to write the PID of the daemon process to the specified
-        file. This is useful for init scripts and is used by the provided init
-        script.
-
-    -L LEVEL
-
-        Sets the maximum level at which guacd will log messages to syslog and,
-        if running in the foreground, the console.  Legal values are debug,
-        info, warning, and error.  The default value is info.
-
-    -f
-        Causes guacd to run in the foreground, rather than automatically
-        forking into the background. 
-
-Additional information can be found in the guacd man page:
-
-    $ man guacd
-
-------------------------------------------------------------
- Reporting problems
-------------------------------------------------------------
-
-Please report any bugs encountered by opening a new issue in the JIRA system
-hosted at:
-    
-    https://issues.apache.org/jira/browse/GUACAMOLE
-
+Feel free to customize this README.md file further to suit your project's specific needs! Let me know if you need additional assistance.
