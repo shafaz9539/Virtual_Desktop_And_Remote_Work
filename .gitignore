@@ -1,0 +1,44 @@
+# Ignore build directories and generated files
+/build/
+/bin/
+/lib/
+/dist/
+*.o
+*.lo
+*.la
+*.a
+*.pyc
+*.pyo
+*.class
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.deb
+*.rpm
+
+# Ignore logs and temporary files
+/logs/
+/tmp/
+/.cache/
+/*.log
+
+# Ignore Guacamole configuration files (if not needed in Git)
+# Uncomment if you want to exclude configs
+#/etc/guacamole/
+#/etc/guacamole/*.properties
+#/etc/guacamole/*.xml
+
+# Ignore dependency directories
+/node_modules/
+/vendor/
+
+# Ignore IDE and OS-specific files
+.DS_Store
+*.swp
+*.swo
+*.swn
+*.bak
+*.backup
+Thumbs.db
+
