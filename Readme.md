@@ -13,7 +13,6 @@ This project demonstrates the deployment of **Apache Guacamole** with a **VNC Se
 5. [Configuration](#configuration)  
 6. [Usage](#usage)  
 7. [Documentation](#documentation)  
-8. [Demo Video](#demo-video)  
 
 ---
 
