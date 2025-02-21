@@ -162,4 +162,4 @@ sudo mysql_secure_installation
 ## Demo Video  
 
 Watch the step-by-step demonstration of the deployment process:  
-[YouTube Demo Video](#)[https://www.youtube.com/watch?v=doS4X0NKnJk]. 
+[YouTube Demo Video](#)https://www.youtube.com/watch?v=doS4X0NKnJk. 
