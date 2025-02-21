@@ -159,14 +159,7 @@ sudo mysql_secure_installation
    - Password: [VNC Server password]  
 
 ---
-
-## Documentation  
-
-For detailed documentation, refer to the [Project Documentation](#) (link to your documentation).  
-
----
-
 ## Demo Video  
 
 Watch the step-by-step demonstration of the deployment process:  
-[YouTube Demo Video](#) (link to your video).  
+[YouTube Demo Video](#) ([https://www.youtube.com/watch?v=doS4X0NKnJk]).  
